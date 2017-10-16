@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			.box{
+				width: 600px;
+				height: 600px;
+				background-color: black;
+				position: relative;
+				
+				
+			}
+			.ball{
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box"></div>
+		<script type="text/javascript">
+			var box=document.getElementsByClassName("box")[0];
+			var boxWidth=600;
+			var boxHeight=600;
+			function ball(){
+			 this.div=document.createElement("div");
+			 this.w=60;
+			 this.h=60;
+			 this.v=20;//每次移动距离
+			 this.v1=2;//球每次缩小量
+			 this.x=0;
+			 this.y=0;
+			 this.init=function(){
+			 	this.div.setAttribute("class","ball");
+			 	this.div.style.width=this.w+"px";
+			 	this.div.style.height=this.h+"px";
+			 	this.div.style.backgroundColor="red";
+			 	
+			 	box.appendChild(this.div);
+			 }
+			 
+			 this.moving=function(){
+			 	var x=this.x+this.v;
+			 	var y=this.y+this.v;
+			 	var big1=this.w-this.v1;
+			 	var big2=this.h-this.v1;
+			 	this.setposition(x,y,big1,big2);
+			 	
+			 	
+			 	
+			 }
+			 
+			 this.setposition=function(x,y,big1,big2){
+			 	
+			   this.x=x>(boxWidth-this.w)?boxWidth-this.w:x;
+			   this.y=y>(boxHeight-this.h)?boxHeight-this.h:x;
+			   this.w=big1<this.v1*10?this.v1*10:big1;
+			   this.h=big2<this.v1*10?this.v1*10:big2;
+			 	this.div.style.left=this.x+"px";
+			 	this.div.style.top=this.y+"px";
+			 	this.div.style.width=this.w+"px";
+			 	this.div.style.height=this.h+"px";
+			 	
+			 }
+			 
+			 this.init();
+			}
+			
+			var balls=new ball();
+			
+			
+			
+			
+			var ballyellow={
+				moving:function(){
+				var x=this.x+this.v;
+				this.setposition(x);
+				},
+				setposition:function(x){
+					this.x=x>(boxWidth-this.w)?boxWidth-this.w:x;
+					this.div.style.left=this.x+"px";
+				}
+				
+			};
+			ballyellow.__proto__=new ball();
+			ballyellow.div.style.backgroundColor="yellow";
+			
+			
+			var ballblue={
+				moving:function(){
+				var y=this.y+this.v;
+				this.setposition(y);
+				},
+				setposition:function(y){
+					this.y=y>(boxHeight-this.h)?boxHeight-this.h:y;
+					this.div.style.top=this.y+"px";
+				}
+				
+			};
+			ballblue.__proto__=new ball();
+			ballblue.div.style.backgroundColor="blue";
+			
+			
+			var ballwhite={
+				moving:function(){
+			 	var big1=this.w-this.v1;
+			 	var big2=this.h-this.v1;
+			 	this.setposition(big1,big2);
+			 	
+			 },
+				setposition:function(big1,big2){
+			    this.w=big1<this.v1*10?this.v1*10:big1;
+			    this.h=big2<this.v1*10?this.v1*10:big2;
+			 	this.div.style.left=(boxWidth-this.w)/2+"px";
+			 	this.div.style.top=(boxHeight-this.h)/2+"px";
+		        this.div.style.width=this.w+"px";
+			 	this.div.style.height=this.h+"px";
+			 }
+				
+			};
+			ballwhite.__proto__=new ball();
+			ballwhite.div.style.backgroundColor="white";
+			
+			
+			setInterval(function(){
+			   balls.moving();
+			   ballyellow.moving();
+			   ballblue.moving();
+			   ballwhite.moving();
+			},100);
+			
+			
+		</script>
+	</body>
+</html>
